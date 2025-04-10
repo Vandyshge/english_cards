@@ -1,0 +1,38 @@
+{% extends 'cards/base.html' %}
+
+{% block content %}
+<h2>Тренировка</h2>
+
+<div class="row">
+    {% for card in cards %}
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            {% if card.image %}
+            <img src="{{ card.image.url }}" class="card-img-top" alt="{{ card.word }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ card.word }}</h5>
+                <button class="btn btn-info show-translation" data-translation="{{ card.translation }}">
+                    Показать перевод
+                </button>
+                <div class="translation mt-2" style="display: none;">
+                    <strong>Перевод:</strong> {{ card.translation }}<br>
+                    {% if card.example %}
+                    <strong>Пример:</strong> {{ card.example }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.querySelectorAll('.show-translation').forEach(button => {
+    button.addEventListener('click', function() {
+        const translationDiv = this.nextElementSibling;
+        translationDiv.style.display = translationDiv.style.display === 'none' ? 'block' : 'none';
+    });
+});
+</script>
+{% endblock %}

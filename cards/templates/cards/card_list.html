@@ -1,0 +1,35 @@
+{% extends 'cards/base.html' %}
+
+{% block content %}
+<h2>Все карточки</h2>
+<a href="{% url 'add_card' %}" class="btn btn-success mb-3">Добавить карточку</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Слово</th>
+            <th>Перевод</th>
+            <th>Пример</th>
+            <th>Урок</th>
+            <th>Изображение</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for card in cards %}
+        <tr>
+            <td>{{ card.word }}</td>
+            <td>{{ card.translation }}</td>
+            <td>{{ card.example|default:"-" }}</td>
+            <td>{{ card.lesson.title }}</td>
+            <td>
+                {% if card.image %}
+                    <img src="{{ card.image.url }}" alt="{{ card.word }}" style="max-height: 50px;">
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

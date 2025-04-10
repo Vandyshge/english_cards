@@ -1,0 +1,11 @@
+{% extends 'cards/base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Добро пожаловать в English Tutor!</h1>
+    <p class="lead">Тренажер для изучения английских слов с карточками.</p>
+    <hr class="my-4">
+    <p>Начните с добавления уроков и карточек, затем тренируйтесь.</p>
+    <a class="btn btn-primary btn-lg" href="{% url 'lesson_list' %}" role="button">Начать</a>
+</div>
+{% endblock %}
