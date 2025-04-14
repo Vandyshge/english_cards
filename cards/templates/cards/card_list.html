@@ -12,6 +12,7 @@
             <th>Пример</th>
             <th>Урок</th>
             <th>Изображение</th>
+            <th>Действия</th>
         </tr>
     </thead>
     <tbody>
@@ -20,13 +21,16 @@
             <td>{{ card.word }}</td>
             <td>{{ card.translation }}</td>
             <td>{{ card.example|default:"-" }}</td>
-            <td>{{ card.lesson.title }}</td>
+            <td><a href="{% url 'lesson_cards' card.lesson.pk %}">{{ card.lesson.title }}</a></td>
             <td>
                 {% if card.image %}
                     <img src="{{ card.image.url }}" alt="{{ card.word }}" style="max-height: 50px;">
                 {% else %}
                     -
                 {% endif %}
+            </td>
+            <td>
+                <a href="{% url 'delete_card' card.pk %}" class="btn btn-sm btn-danger">Удалить</a>
             </td>
         </tr>
         {% endfor %}

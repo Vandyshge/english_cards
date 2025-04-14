@@ -1,0 +1,33 @@
+{% extends 'cards/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card border-danger mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-danger text-white">
+            <h4><i class="bi bi-exclamation-triangle"></i> Подтверждение удаления</h4>
+        </div>
+        <div class="card-body">
+            <p>Вы действительно хотите удалить {{ type }} <strong>"{{ object }}"</strong>?</p>
+            
+            {% if type == 'урок' and object.cards.exists %}
+            <div class="alert alert-warning">
+                <i class="bi bi-exclamation-circle"></i>
+                В этом уроке {{ object.cards.count }} карточек, они также будут удалены!
+            </div>
+            {% endif %}
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a href="{% url back_url %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Отмена
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Удалить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
