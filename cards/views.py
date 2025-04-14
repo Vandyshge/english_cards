@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from .models import Card, Lesson
 from .forms import CardForm, LessonForm
 from django.contrib import messages
@@ -51,18 +50,23 @@ def practice(request):
 def delete_card(request, pk):
     card = get_object_or_404(Card, pk=pk)
     if request.method == 'POST':
+        lesson_pk = card.lesson.pk  # Сохраняем ID урока перед удалением
         card.delete()
         messages.success(request, 'Карточка успешно удалена!')
-        return redirect('card_list')
-    return render(request, 'cards/confirm_delete.html', {'object': card, 'type': 'карточку'})
+        return redirect('lesson_cards', pk=lesson_pk)  # Перенаправляем обратно в урок
+    
+    return render(request, 'cards/confirm_delete.html', {
+        'object': card,
+        'type': 'карточку',
+        'back_url': 'lesson_cards',
+        'back_kwargs': {'pk': card.lesson.pk}
+    })
 
-@login_required
 def delete_lesson(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
-    
     if request.method == 'POST':
         lesson.delete()
-        messages.success(request, f'Урок "{lesson.title}" удалён!')
+        messages.success(request, f'Урок "{lesson.title}" успешно удалён!')
         return redirect('lesson_list')
     
     return render(request, 'cards/confirm_delete.html', {
